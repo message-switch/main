@@ -1,0 +1,134 @@
+﻿<div fxLayout="column" style="margin-top:1%;margin-left:2%;margin-right:2%;" name="business_domain_body">
+	<div class="flex-p">
+		<mat-card>
+			<mat-card-content fxLayout="column" fxLayoutAlign="center">
+
+
+				<table style="margin-left:3%;">
+					<tbody>
+						<div *ngIf="error.isError" class="error">
+							<h4>{{ error.errorMessage }}</h4>
+						</div>
+						<tr>
+							<td>
+								<label style="font-weight:bold">Choose Interval: </label>
+							</td>
+							<td>
+								<mat-card-content>
+									<mat-form-field>
+										<mat-select [(ngModel)]="messageLogSearchInput.interval" (selectionChange)="changeInterval()">
+											<mat-option *ngFor="let item of messageLogSearchInput.intervalValues" [value]="item.code">{{item.value}}</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</mat-card-content>
+							</td>
+						</tr>
+						<tr fxShow="{{showDates}}">
+							<td>
+								<label style="font-weight:bold">Start Date : </label>
+							</td>
+							<td>
+								<mat-form-field>
+									<input matInput [(ngModel)]="messageLogSearchInput.startDate" [matDatepicker]="startDate" placeholder="Choose a start date"
+									 ng-readonly="true">
+									<mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+									<mat-datepicker #startDate></mat-datepicker>
+								</mat-form-field>
+							</td>
+							<td>
+								<label style="font-weight:bold">End Date : </label>
+							</td>
+							<td>
+								<mat-form-field>
+									<input matInput [(ngModel)]="messageLogSearchInput.endDate" [matDatepicker]="endDate" placeholder="Choose a end date"
+									 ng-readonly="true">
+									<mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+									<mat-datepicker #endDate></mat-datepicker>
+								</mat-form-field>
+							</td>
+
+						</tr>
+
+				</table>
+			</mat-card-content>
+		</mat-card>
+	</div>
+	<div style="margin-left:85%;margin-top:1%;">
+		<button type="button" mat-raised-button color="primary" class="mat-elevation-z1 box-button" style="margin-left:5%;"
+		 (click)="onSubmit()">Search</button>
+		<button type="button" mat-raised-button color="primary" class="mat-elevation-z1 box-button" style="margin-left:5%;"
+		 (click)="reset()">Reset</button>
+	</div>
+	<br />
+
+	<div fxShow="{{showMsgLog}}">
+
+		<div class="black">
+
+			<div>
+
+
+				<div fxLayout="column" class="messageLogResults1">
+					<mat-form-field>
+						<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search messages" #input>
+					</mat-form-field>
+					<mat-table #table [dataSource]="messageLogDataSource" class="mat-elevation-z1" matSort>
+
+						<ng-container matColumnDef="correlationId">
+							<mat-header-cell *matHeaderCellDef mat-sort-header>CORRELATION ID </mat-header-cell>
+							<mat-cell *matCellDef="let element"> {{element.correlationId}} </mat-cell>
+						</ng-container>
+						<ng-container matColumnDef="mke">
+							<mat-header-cell *matHeaderCellDef mat-sort-header>MKE </mat-header-cell>
+							<mat-cell *matCellDef="let element"> {{element.mke}} </mat-cell>
+						</ng-container>
+						<ng-container matColumnDef="ori">
+							<mat-header-cell *matHeaderCellDef mat-sort-header>ORI</mat-header-cell>
+							<mat-cell *matCellDef="let element"> {{element.ori}} </mat-cell>
+						</ng-container>
+						<ng-container matColumnDef="system">
+							<mat-header-cell *matHeaderCellDef mat-sort-header>SYSTEM</mat-header-cell>
+							<mat-cell *matCellDef="let element"> {{element.system}} </mat-cell>
+						</ng-container>
+
+						<ng-container matColumnDef="fbi">
+							<mat-header-cell *matHeaderCellDef mat-sort-header>FBI</mat-header-cell>
+							<mat-cell *matCellDef="let element"> {{element.fbi}} </mat-cell>
+						</ng-container>
+						<ng-container matColumnDef="sid">
+							<mat-header-cell *matHeaderCellDef mat-sort-header>SID</mat-header-cell>
+							<mat-cell *matCellDef="let element"> {{element.sid}} </mat-cell>
+						</ng-container>
+						<ng-container matColumnDef="inOut">
+							<mat-header-cell *matHeaderCellDef>IN/OUT</mat-header-cell>
+							<mat-cell *matCellDef="let element"> {{element.inOut}} </mat-cell>
+						</ng-container>
+						<ng-container matColumnDef="responseTime">
+							<mat-header-cell *matHeaderCellDef>RESPONSE TIME (ms)</mat-header-cell>
+							<mat-cell *matCellDef="let element"> {{element.responseTime}} </mat-cell>
+						</ng-container>
+						<ng-container matColumnDef="timestamp">
+							<mat-header-cell *matHeaderCellDef>TIMESTAMP</mat-header-cell>
+							<mat-cell *matCellDef="let element"> {{element.timestamp}} </mat-cell>
+						</ng-container>
+
+						<ng-container matColumnDef="status">
+							<mat-header-cell *matHeaderCellDef>STATUS</mat-header-cell>
+							<mat-cell *matCellDef="let element" (click)="getStatusDetails(element.messagelogId)">
+								<div class="link"> {{element.status}}</div>
+							</mat-cell>
+						</ng-container>
+						<ng-container matColumnDef="details">
+							<mat-header-cell *matHeaderCellDef>TIMESTAMP</mat-header-cell>
+							<mat-cell *matCellDef="let element" (click)="getDetails(element.messagelogId)">
+								<div class="link">Details</div>
+							</mat-cell>
+						</ng-container>
+						<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+						<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+					</mat-table>
+					<mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 10]" showFirstLastButtons></mat-paginator>
+				</div>
+			</div>
+		</div>

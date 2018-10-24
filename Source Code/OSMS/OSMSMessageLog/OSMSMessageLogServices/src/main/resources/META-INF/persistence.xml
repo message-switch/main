@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	version="2.0">
+	<persistence-unit name="OSMSMessageLog_PU"
+		transaction-type="JTA">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>java:jboss/datasources/MessageLogDS</jta-data-source>
+		<!-- <mapping-file>META-INF/oracle.orm.xml</mapping-file> -->
+		<class>com.gcom.osms.messagelog.po.model.CodedMsgLogTypeEntity</class>
+		<class>com.gcom.osms.messagelog.po.model.MessageLogEntity</class>
+		<class>com.gcom.osms.messagelog.po.model.MessageLogHeaderEntity</class>
+		<class>com.gcom.osms.messagelog.po.model.MessageLogPayloadEntity</class>
+		<class>com.gcom.osms.messagelog.po.model.MessageLogStatusEntity</class>
+		<class>com.gcom.osms.messagelog.po.model.StatusLogEntity</class>
+			<properties>
+				<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+				<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+				<property name="hibernate.show_sql" value="false" />
+				
+				<property name="hibernate.transaction.flush_before_completion"
+					value="true" />
+				<property name="hibernate.transaction.auto_close_session"
+					value="true" />
+				<property name="hibernate.ejb.discard_pc_on_close" value="true" />
+				<property name="hibernate.bytecode.use_reflection_optimizer"
+					value="true" />
+			
+				<property name="hibernate.transaction.jta.platform"
+					value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform" />
+			</properties>
+	</persistence-unit>
+	
+	
+</persistence>

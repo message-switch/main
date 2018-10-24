@@ -1,0 +1,21 @@
+<div fxLayout="column">
+  <mat-table #table [dataSource]="messageLogDetailsDataSource" class="mat-elevation-z1" >
+    <ng-container matColumnDef="header">
+      <mat-header-cell *matHeaderCellDef >Header Detials</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.header}} </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns1;"></mat-row>
+  </mat-table>
+</div>
+<div></div>
+<div fxLayout="column">
+  <mat-table #table [dataSource]="messageLogDetailsDataSource" class="mat-elevation-z1" >
+    <ng-container matColumnDef="payload">
+      <mat-header-cell *matHeaderCellDef>Payload Details</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.payload}} </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns2;"></mat-row>
+  </mat-table>
+</div>

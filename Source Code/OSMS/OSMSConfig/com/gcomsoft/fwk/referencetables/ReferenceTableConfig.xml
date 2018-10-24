@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ref:ReferenceTablesConfig  xmlns:ref="http://www.gcomsoft.com/fwk/referencetableschema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gcomsoft.com/fwk/referencetableschema ./ReferenceTablesConfig.xsd">
+	<ref:categories>
+		<ref:category fileName="ReferenceTables.xml" catName="ReferenceTable" className="com.gcomsoft.fwk.referencetables.ReferenceTableCategoryImpl" lazy="false" expiray="0" cacheAdapter="com.gcomsoft.fwk.cache.JCSCacheAdapter" cacheConfig ="/com/gcomsoft/fwk/referencetables/jcscache.properties"/>
+	</ref:categories>
+</ref:ReferenceTablesConfig>
+ 

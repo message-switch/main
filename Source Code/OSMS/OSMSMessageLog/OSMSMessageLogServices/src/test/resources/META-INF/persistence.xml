@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="OSMSMessageLog" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>com.gcom.osms.messagelog.po.model.CodedMsgLogTypeEntity</class>
+		<class>com.gcom.osms.messagelog.po.model.MessageLogEntity</class>
+		<class>com.gcom.osms.messagelog.po.model.MessageLogHeaderEntity</class>
+		<class>com.gcom.osms.messagelog.po.model.MessageLogPayloadEntity</class>
+		<class>com.gcom.osms.messagelog.po.model.MessageLogStatusEntity</class>
+		<class>com.gcom.osms.messagelog.po.model.StatusLogEntity</class>
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="javax.persistence.jdbc.url"
+				value="jdbc:mysql://10.0.200.174:3306/osmsdev" />
+			<property name="javax.persistence.jdbc.user" value="osmsuser" />
+			<property name="javax.persistence.jdbc.password" value="osmsuserpwd" />
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.transaction.flush_before_completion"
+				value="true" />
+			<property name="hibernate.transaction.auto_close_session"
+				value="true" />
+			<property name="hibernate.ejb.discard_pc_on_close" value="true" />
+			<property name="hibernate.bytecode.use_reflection_optimizer"
+				value="true" />
+			<property name="hibernate.transaction.jta.platform"
+				value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform" />
+		</properties>
+	</persistence-unit>
+</persistence>

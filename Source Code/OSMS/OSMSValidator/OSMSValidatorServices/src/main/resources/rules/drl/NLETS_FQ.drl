@@ -1,0 +1,82 @@
+package osmsrule
+
+import org.w3c.dom.Document;
+import java.math.BigDecimal;
+import java.lang.*;
+import java.util.*;
+import com.gcom.osms.validator.service.data.parsing.XmlParsing;
+import com.gcom.osms.validator.common.ValidatorRequest;
+import com.gcom.osms.validator.service.util.OSMSValidationUtil;
+
+global java.util.Map errorMessages;
+
+dialect "java"
+
+//IQ MessageKeyCodeText element validation
+rule "MessageKeyCodeText Validation"
+   when
+    request : ValidatorRequest(message!=null, contentType=="XML" , mke == "FQ");
+   then   	
+     System.out.println("msgKeyCodeTxt::"+XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSMessageHeader/MessageKeyCodeText/text()"));
+     String msgKeyCodeTxt = XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSMessageHeader/MessageKeyCodeText/text()");
+     validateMandatoryFields(msgKeyCodeTxt,"ERROR_CODE_001",new Object[]{"MessageKeyCodeText",request.getMke()},errorMessages);
+end
+
+
+//IQ OriginatingORIID element validation
+rule "OriginatingORIID Validation"
+   when
+    request : ValidatorRequest(message!=null, contentType=="XML" , mke == "FQ");
+   then   	
+     System.out.println("originatingORIID::"+XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSMessageHeader/OriginatingORIID/text()"));
+     String originatingORIID = XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSMessageHeader/OriginatingORIID/text()");
+     validateMandatoryFields(originatingORIID,"ERROR_CODE_001",new Object[]{"OriginatingORIID",request.getMke()},errorMessages);
+end
+
+
+//IQ PurposeCode element validation
+rule "PurposeCode Validation"
+   when
+    request : ValidatorRequest(message!=null, contentType=="XML" , mke == "FQ");
+   then   	
+     System.out.println("purposeCode::"+XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSInquiryData/PurposeCode/text()"));
+     String purposeCode = XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSInquiryData/PurposeCode/text()");
+     validateMandatoryFields(purposeCode,"ERROR_CODE_001",new Object[]{"PurposeCode",request.getMke()},errorMessages);
+     validatePurposeCodeField(purposeCode,"ERROR_CODE_004",errorMessages);
+end
+
+//IQ ResponseAttentionDescriptionText element validation
+rule "ResponseAttentionDescriptionText Validation"
+   when
+    request : ValidatorRequest(message!=null, contentType=="XML" , mke == "FQ");
+   then   	
+     System.out.println("ResponseAttentionDescriptionText::"+XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSInquiryData/ResponseAttentionDescriptionText/text()"));
+     String responseAttentionDescriptionText = XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSInquiryData/ResponseAttentionDescriptionText/text()");
+     validateMandatoryFields(responseAttentionDescriptionText,"ERROR_CODE_001",new Object[]{"ResponseAttentionDescriptionText",request.getMke()},errorMessages);
+end
+
+//IQ IdentificationID element validation
+rule "IdentificationID Validation"
+   when
+    request : ValidatorRequest(message!=null, contentType=="XML" , mke == "FQ");
+   then   	
+     System.out.println("identificationID::"+XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSInquiryData/Person/PersonAugmentation/PersonStateFingerprintIdentification/IdentificationID/text()"));
+     String identificationID = XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSInquiryData/Person/PersonAugmentation/PersonStateFingerprintIdentification/IdentificationID/text()");
+     validateMandatoryFields(identificationID,"ERROR_CODE_001",new Object[]{"IdentificationID",request.getMke()},errorMessages);
+end
+
+
+function Map validateMandatoryFields(Object value, String erroCode, Object[] params, Map errorMessages){
+	if(value==null || (value.getClass().isAssignableFrom(String.class) && value.toString().trim().equals(""))){
+     	errorMessages.put(erroCode,params);
+    }
+    return errorMessages;
+}
+
+function Map validatePurposeCodeField(Object value, String erroCode, Map errorMessages){
+	String regStr = "C|F|E|D|H|I|J|S|X";
+	if(value!=null && !value.toString().matches("C|F|E|D|H|I|J|S|X")){
+			errorMessages.put(erroCode,new Object[]{"PurposeCode",regStr});
+    }
+    return errorMessages;
+}

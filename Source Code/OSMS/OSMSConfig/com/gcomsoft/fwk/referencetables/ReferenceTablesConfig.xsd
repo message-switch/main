@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ref="http://www.gcomsoft.com/fwk/referencetableschema" targetNamespace="http://www.gcomsoft.com/fwk/referencetableschema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="ReferenceTablesConfig">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="categories">
+					<xs:complexType>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="category" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="lazy" type="xs:boolean" default="true"/>
+									<xs:attribute name="expiray" type="xs:long" default="0"/>
+									<xs:attribute name="className" type="xs:string" use="required"/>
+									<xs:attribute name="catName" type="xs:string" use="required"/>
+									<xs:attribute name="fileName" type="xs:string" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

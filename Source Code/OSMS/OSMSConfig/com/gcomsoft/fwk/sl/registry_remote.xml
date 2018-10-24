@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sl:RegistryConfig xmlns:sl="http://www.gcomsoft.com/schema/fwk/sl/v1-0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.gcomsoft.com/schema/fwk/sl/v1-0 http://www.gcomsoft.com/schema/fwk/sl/v1-0 ">
+	<sl:Contexts>
+		<sl:Context ServerName="CURRENT_CONTEXT">
+
+		</sl:Context>
+	</sl:Contexts>
+	<sl:AppRegistries>
+		<!-- FRAMEWORKS -->
+		<sl:AppRegistry AppName="GCOM_COMMON_LIB">
+			<sl:EmailSessions>
+				<sl:EmailSession>
+					<sl:AliasName>ExceptionReportEmail</sl:AliasName>
+					<sl:JNDIName>java:jboss/mail/Default</sl:JNDIName>
+				</sl:EmailSession>
+				<sl:EmailSession>
+					<sl:AliasName>NotificationEmail</sl:AliasName>
+					<sl:JNDIName>java:jboss/mail/Default</sl:JNDIName>
+				</sl:EmailSession>
+			</sl:EmailSessions>
+		</sl:AppRegistry>
+		<sl:AppRegistry AppName="AUDIT_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.fwk.audit.service.AuditService</sl:AliasName>
+					<sl:LocalName>java:global/GcomAuditServiceEAR/GcomAuditFacade/AuditServiceFacade!com.gcomsoft.fwk.audit.ejb.AuditServiceFacadeLocal</sl:LocalName>
+					<sl:RemoteName>ejb:GcomAuditServiceEAR/GcomAuditFacade/AuditServiceFacade!com.gcomsoft.fwk.audit.ejb.AuditServiceFacadeRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:Queues>
+				<sl:Queue>
+					<sl:ConnectionFactory>java:/jms/AuditRecordQCF</sl:ConnectionFactory>
+					<sl:Destinations>
+						<sl:Destination>
+							<sl:AliasName>AuditRecordQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/AuditRecordQ</sl:DestinationName>
+						</sl:Destination>
+					</sl:Destinations>
+				</sl:Queue>
+			</sl:Queues>
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>AUDITSERVICEDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/AuditDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+		<sl:AppRegistry AppName="FORMATTER_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.fwk.formatter.Formatter</sl:AliasName>
+					<sl:LocalName>java:global/GcomFormatterEAR/GcomFormatterFacade/FormatterFacade!com.gcomsoft.fwk.formatter.ejb.FormatterLocal</sl:LocalName>
+					<sl:RemoteName>ejb:GcomFormatterEAR/GcomFormatterFacade/FormatterFacade!com.gcomsoft.fwk.formatter.ejb.FormatterRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+		</sl:AppRegistry>
+		<sl:AppRegistry AppName="INBOX_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.fwk.inbox.service.GcomInboxService</sl:AliasName>
+					<sl:LocalName>java:global/GcomInboxEAR/GcomInboxFacade/GcomInboxFacade!com.gcomsoft.fwk.inbox.ejb.GcomInboxLocal</sl:LocalName>
+					<sl:RemoteName>ejb:GcomInboxEAR/GcomInboxFacade/GcomInboxFacade!com.gcomsoft.fwk.inbox.ejb.GcomInboxRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>GCOMINBOXDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/GcomInboxDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+		<sl:AppRegistry AppName="NOTIFICATION_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.fwk.notification.service.NotificationService</sl:AliasName>
+					<sl:LocalName>java:global/GcomNotificationServiceEAR/GcomNotificationServiceFacade/NotificationServiceFacade!com.gcomsoft.fwk.notification.service.ejb.NotificationServiceLocal</sl:LocalName>
+					<sl:RemoteName>ejb:GcomNotificationServiceEAR/GcomNotificationServiceFacade/NotificationServiceFacade!com.gcomsoft.fwk.notification.service.ejb.NotificationServiceRemote</sl:RemoteName>
+				</sl:EJBService>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.fwk.notification.service.NotificationConfirmationService</sl:AliasName>
+					<sl:LocalName>java:global/GcomNotificationServiceEAR/GcomNotificationServiceFacade/NotificationConfirmationFacade!com.gcomsoft.fwk.notification.service.ejb.NotificationConfirmationLocal</sl:LocalName>
+					<sl:RemoteName>ejb:GcomNotificationServiceEAR/GcomNotificationServiceFacade/NotificationConfirmationFacade!com.gcomsoft.fwk.notification.service.ejb.NotificationConfirmationRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>NotificationServiceDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/NotificationServiceDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+			<sl:Queues>
+				<sl:Queue>
+					<sl:ConnectionFactory>java:/jms/NotificationServiceQCF</sl:ConnectionFactory>
+					<sl:Destinations>
+						<sl:Destination>
+							<sl:AliasName>NotificationServiceQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/NotificationServiceQ</sl:DestinationName>
+						</sl:Destination>
+						<sl:Destination>
+							<sl:AliasName>NotificationServiceProcessQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/NotificationServiceProcessQ</sl:DestinationName>
+						</sl:Destination>
+					</sl:Destinations>
+				</sl:Queue>
+			</sl:Queues>
+		</sl:AppRegistry>
+		<sl:AppRegistry AppName="PROCESS_ADAPTER">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.fwk.process.adapter.ProcessAdapter</sl:AliasName>
+					<sl:LocalName>java:global/GcomProcessAdapterEAR/GcomProcessAdapterEJB/ProcessAdapterEJB!com.gcomsoft.fwk.process.adapter.ejb.ProcessAdapterEJBLocal</sl:LocalName>
+					<sl:RemoteName>ejb:GcomProcessAdapterEAR/GcomProcessAdapterEJB/ProcessAdapterEJB!com.gcomsoft.fwk.process.adapter.ejb.ProcessAdapterEJBRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+		</sl:AppRegistry>
+		<sl:AppRegistry AppName="REFTABLE_MAINTENANCE">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.fwk.reftables.mgmt.service.RefTableMaintenanceService</sl:AliasName>
+					<sl:LocalName>java:global/RefTableMaintenanceEAR/RefTableMaintenanceFacade/RefTableMaintenanceEJB!com.gcomsoft.fwk.reftables.mgmt.ejb.RefTableMaintenanceEJBLocal</sl:LocalName>
+					<sl:RemoteName>ejb:RefTableMaintenanceEAR/RefTableMaintenanceFacade/RefTableMaintenanceEJB!com.gcomsoft.fwk.reftables.mgmt.ejb.RefTableMaintenanceEJBRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+		</sl:AppRegistry>
+		<!-- FRAMEWORKS -->
+		<!-- CRRMS -->
+		<sl:AppRegistry AppName="CCH_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.cch.services.CCHService</sl:AliasName>
+					<sl:LocalName>java:global/CCHServiceEAR/CCHServiceFacade/CCHServiceFacade!com.gcomsoft.crrms.cch.ejb.CCHServiceLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CCHServiceEAR/CCHServiceFacade/CCHServiceFacade!com.gcomsoft.crrms.cch.ejb.CCHServiceRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:Queues>
+				<sl:Queue>
+					<sl:ConnectionFactory>java:/jms/CCHUpdatePublishQCF</sl:ConnectionFactory>
+					<sl:Destinations>
+						<sl:Destination>
+							<sl:AliasName>CCHUpdatePublishQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/CCHUpdatePublishQ</sl:DestinationName>
+						</sl:Destination>
+						<sl:Destination>
+							<sl:AliasName>COASTSubscriberQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/COASTSubscriberQ</sl:DestinationName>
+						</sl:Destination>
+						<sl:Destination>
+							<sl:AliasName>DispoAutoAssociationSubscriberQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/DispoAutoAssociationSubscriberQ</sl:DestinationName>
+						</sl:Destination>
+						<sl:Destination>
+							<sl:AliasName>FALCONSubscriberQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/FALCONSubscriberQ</sl:DestinationName>
+						</sl:Destination>
+						<sl:Destination>
+							<sl:AliasName>HAVASubscriberQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/HAVASubscriberQ</sl:DestinationName>
+						</sl:Destination>
+						<sl:Destination>
+							<sl:AliasName>IIISubscriberQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/IIISubscriberQ</sl:DestinationName>
+						</sl:Destination>
+						<sl:Destination>
+							<sl:AliasName>NICSSubscriberQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/NICSSubscriberQ</sl:DestinationName>
+						</sl:Destination>
+						<sl:Destination>
+							<sl:AliasName>SOPSSubscriberQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/SOPSSubscriberQ</sl:DestinationName>
+						</sl:Destination>
+						<sl:Destination>
+							<sl:AliasName>CCHNotificationSubscriberQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/CCHNotificationSubscriberQ</sl:DestinationName>
+						</sl:Destination>
+					</sl:Destinations>
+				</sl:Queue>
+			</sl:Queues>
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>CCHDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/CCHDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+		<sl:AppRegistry AppName="CCH_MAINTENANCE_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.cch.maintenance.CCHMaintenanceService</sl:AliasName>
+					<sl:LocalName>java:global/CCHMaintenanceEAR/CCHMaintenanceFacade/CCHMaintenanceFacade!com.gcomsoft.crrms.cch.maintenance.ejb.CCHMaintenanceLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CCHMaintenanceEAR/CCHMaintenanceFacade/CCHMaintenanceFacade!com.gcomsoft.crrms.cch.maintenance.ejb.CCHMaintenanceRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+		</sl:AppRegistry>
+		<sl:AppRegistry AppName="AGENCY_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.agency.services.AgencyService</sl:AliasName>
+					<sl:LocalName>java:global/AgencyServiceEAR/AgencyServiceFacade/AgencyServiceFacade!com.gcomsoft.crrms.agency.ejb.AgencyServiceLocal</sl:LocalName>
+					<sl:RemoteName>ejb:AgencyServiceEAR/AgencyServiceFacade/AgencyServiceFacade!com.gcomsoft.crrms.agency.ejb.AgencyServiceRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>AGENCYDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/AgencyDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+
+		<sl:AppRegistry AppName="FORM_MANAGER">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.formmanager.service.QuestionAdministrationServiceRemote</sl:AliasName>
+					<sl:LocalName>java:global/FormManagerEAR/FormManagerFacade/QuestionAdministrationService!com.gcomsoft.crrms.formmanager.service.QuestionAdministrationServiceLocal</sl:LocalName>
+					<sl:RemoteName>ejb:FormManagerEAR/FormManagerFacade/QuestionAdministrationService!com.gcomsoft.crrms.formmanager.service.QuestionAdministrationServiceRemote</sl:RemoteName>
+				</sl:EJBService>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.formmanager.codedtable.ejb.CodedTableServiceEJBRemote</sl:AliasName>
+					<sl:LocalName>java:global/FormManagerEAR/FormManagerFacade/CodedTableServiceEJB!com.gcomsoft.crrms.formmanager.codedtable.ejb.CodedTableServiceEJBLocal</sl:LocalName>
+					<sl:RemoteName>ejb:FormManagerEAR/FormManagerFacade/CodedTableServiceEJB!com.gcomsoft.crrms.formmanager.codedtable.ejb.CodedTableServiceEJBRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>GcomFormsDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/GcomFormsDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+
+		<sl:AppRegistry AppName="RAP_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.rapgen.service.RapService</sl:AliasName>
+					<sl:LocalName>java:global/RapServiceEAR/RapServiceFacade/RapServiceFacade!com.gcomsoft.crrms.rapgen.ejb.RapServiceFacadeLocal</sl:LocalName>
+					<sl:RemoteName>ejb:RapServiceEAR/RapServiceFacade/RapServiceFacade!com.gcomsoft.crrms.rapgen.ejb.RapServiceFacadeRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+		</sl:AppRegistry>
+
+		<sl:AppRegistry AppName="DISPOSITION_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.disposition.service.CRRMSDispositionService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSDispositionEAR/CRRMSDispositionFacade/CRRMSDispositionFacade!com.gcomsoft.disposition.ejb.CRRMSDispositonLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSDispositionEAR/CRRMSDispositionFacade/CRRMSDispositionFacade!com.gcomsoft.disposition.ejb.CRRMSDispositonRemote</sl:RemoteName>
+				</sl:EJBService>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.disposition.dashboard.internalMessage.service.DispoDashboardInternalMessageService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSDispositionEAR/CRRMSDispositionFacade/CRRMSDispositionFacade!com.gcomsoft.disposition.ejb.CRRMSDispositonLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSDispositionEAR/CRRMSDispositionFacade/CRRMSDispositionFacade!com.gcomsoft.disposition.ejb.CRRMSDispositonRemote</sl:RemoteName>
+				</sl:EJBService>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.disposition.service.CRRMSDispoAssociationService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSDispositionEAR/CRRMSDispositionFacade/CRRMSDispositionFacade!com.gcomsoft.disposition.ejb.CRRMSDispositonLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSDispositionEAR/CRRMSDispositionFacade/CRRMSDispositionFacade!com.gcomsoft.disposition.ejb.CRRMSDispositonRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>DISPODS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/DISPODS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+			<sl:Queues>
+				<sl:Queue>
+					<sl:ConnectionFactory>java:/jms/DispoIntakeQCF</sl:ConnectionFactory>
+					<sl:Destinations>
+						<sl:Destination>
+							<sl:AliasName>ValidateDispositionRecordReceiverQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/ValidateDispositionRecordReceiverQ</sl:DestinationName>
+						</sl:Destination>
+						<sl:Destination>
+							<sl:AliasName>DispoAssociationReceiverQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/DispoAssociationReceiverQ</sl:DestinationName>
+						</sl:Destination>
+						<sl:Destination>
+							<sl:AliasName>DispoFileReceiverQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/DispoFileReceiverQ</sl:DestinationName>
+						</sl:Destination>
+						<sl:Destination>
+							<sl:AliasName>AssociateDispoInCCHQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/AssociateDispoInCCHQ</sl:DestinationName>
+						</sl:Destination>
+						<sl:Destination>
+							<sl:AliasName>AssociateDispoInCCHQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/AssociateDispoInCCHQ</sl:DestinationName>
+						</sl:Destination>
+					</sl:Destinations>
+				</sl:Queue>
+			</sl:Queues>
+		</sl:AppRegistry>
+		<sl:AppRegistry AppName="DISPO_TASK_SERVICES">
+			<sl:EJBServices> 
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.dispo.service.UserDispoDashboardService</sl:AliasName> 
+					<sl:LocalName>java:global/CRRMSDispoTaskEAR/CRRMSDispoTaskFacade/DispoTaskEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBLocal</sl:LocalName> 
+					<sl:RemoteName>ejb:CRRMSDispoTaskEAR/CRRMSDispoTaskFacade/DispoTaskEJB!com.gcomsoft.crrms.dispo.ejb.DispoTaskEJBRemote</sl:RemoteName> 
+				</sl:EJBService> 
+				<sl:EJBService PreferLocal="false"> 
+					<sl:AliasName>com.gcomsoft.crrms.dispo.service.DispoTaskService</sl:AliasName> 
+					<sl:LocalName>java:global/CRRMSDispoTaskEAR/CRRMSDispoTaskFacade/DispoTaskEJB!com.gcomsoft.crrms.dispo.ejb.DispoTaskEJBLocal</sl:LocalName> 
+					<sl:RemoteName>ejb:CRRMSDispoTaskEAR/CRRMSDispoTaskFacade/DispoTaskEJB!com.gcomsoft.crrms.workflow.ejb.DispoTaskEJBRemote</sl:RemoteName> 
+				</sl:EJBService> 
+				<sl:EJBService PreferLocal="false"> 
+					<sl:AliasName>com.gcomsoft.crrms.dispo.service.CaseCommonService</sl:AliasName> 
+					<sl:LocalName>java:global/CRRMSDispoTaskEAR/CRRMSDispoTaskFacade/DispoTaskEJB!com.gcomsoft.crrms.dispo.ejb.DispoTaskEJBLocal</sl:LocalName> 
+					<sl:RemoteName>ejb:CRRMSDispoTaskEAR/CRRMSDispoTaskFacade/DispoTaskEJB!com.gcomsoft.crrms.dispo.ejb.DispoTaskEJBRemote</sl:RemoteName> 
+				</sl:EJBService> 
+				<sl:EJBService PreferLocal="false"> 
+					<sl:AliasName>com.gcomsoft.crrms.dispo.service.DispositionIntakeService</sl:AliasName> 
+					<sl:LocalName>java:global/CRRMSDispoTaskEAR/CRRMSDispoTaskFacade/DispoTaskEJB!com.gcomsoft.crrms.dispo.ejb.DispoTaskEJBLocal</sl:LocalName> 
+					<sl:RemoteName>ejb:CRRMSDispoTaskEAR/CRRMSDispoTaskFacade/DispoTaskEJB!com.gcomsoft.crrms.dispo.ejb.DispoTaskEJBRemote</sl:RemoteName> 
+				</sl:EJBService> 
+
+
+			</sl:EJBServices>
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>DISPODS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/DISPODS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+		<sl:AppRegistry AppName="PHOTO_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.content.photo.PhotoService</sl:AliasName>
+					<sl:LocalName>java:global/PhotoRepositoryEAR/PhotoRepositoryFacade/PhotoRepositoryFacade!com.gcomsoft.crrms.content.photo.ejb.PhotoRepositoryLocal</sl:LocalName>
+					<sl:RemoteName>ejb:PhotoRepositoryEAR/PhotoRepositoryFacade/PhotoRepositoryFacade!com.gcomsoft.crrms.content.photo.ejb.PhotoRepositoryRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>PHOTODS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/PHOTODS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+		<sl:AppRegistry AppName="UPI_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.upi.UPIService</sl:AliasName>
+					<sl:LocalName>java:global/UPIServiceEAR/UPIServiceFacade/UPIServiceFacade!com.gcomsoft.crrms.upi.ejb.UPIServiceLocal</sl:LocalName>
+					<sl:RemoteName>ejb:UPIServiceEAR/UPIServiceFacade/UPIServiceFacade!com.gcomsoft.crrms.upi.ejb.UPIServiceRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>UPIDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/UPIDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+		<!-- CRRMS -->
+		<sl:AppRegistry AppName="CONTENT_MAMANGER_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.framework.ecm.ContentManagerService</sl:AliasName>
+					<sl:LocalName>java:global/GcomContentManagerEAR/GcomContentManagerFacade/ContentManagerServiceEJB!com.gcomsoft.framework.ecm.ejb.ContentManagerServiceEJBLocal</sl:LocalName>
+					<sl:RemoteName>ejb:GcomContentManagerEAR/GcomContentManagerFacade/ContentManagerServiceEJB!com.gcomsoft.framework.ecm.ejb.ContentManagerServiceEJBRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+		</sl:AppRegistry>
+		<sl:AppRegistry AppName="MANAGE_ACCOUNT_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.fwk.manageaccount.service.ManageAccountServiceRemote</sl:AliasName>
+					<sl:LocalName>java:global/ManageAccountEAR/ManageAccountFacade/ManageAccountService!com.gcomsoft.fwk.manageaccount.service.ManageAccountServiceLocal</sl:LocalName>
+					<sl:RemoteName>ejb:ManageAccountEAR/ManageAccountFacade/ManageAccountService!com.gcomsoft.fwk.manageaccount.service.ManageAccountServiceRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>AccountDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/AccountDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+
+		<sl:AppRegistry AppName="CRRMS_WORKFLOW_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.workflow.service.UserDashboardService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSWorkFlowEAR/CRRMSWorkFlowFacade/CaseWorkFlowEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSWorkFlowEAR/CRRMSWorkFlowFacade/CaseWorkFlowEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBRemote</sl:RemoteName>
+				</sl:EJBService>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.workflow.service.CaseWorkFlowService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSWorkFlowEAR/CRRMSWorkFlowFacade/CaseWorkFlowEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSWorkFlowEAR/CRRMSWorkFlowFacade/CaseWorkFlowEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBRemote</sl:RemoteName>
+				</sl:EJBService>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.workflow.service.CaseCommonService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSWorkFlowEAR/CRRMSWorkFlowFacade/CaseWorkFlowEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSWorkFlowEAR/CRRMSWorkFlowFacade/CaseWorkFlowEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBRemote</sl:RemoteName>
+				</sl:EJBService>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.workflow.service.InternalMessageService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSWorkFlowEAR/CRRMSWorkFlowFacade/CaseWorkFlowEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSWorkFlowEAR/CRRMSWorkFlowFacade/CaseWorkFlowEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBRemote</sl:RemoteName>
+				</sl:EJBService>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.workflow.service.CaseLinkService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSWorkFlowEAR/CRRMSWorkFlowFacade/CaseWorkFlowEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSWorkFlowEAR/CRRMSWorkFlowFacade/CaseWorkFlowEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBRemote</sl:RemoteName>
+				</sl:EJBService>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.workflow.service.SECaseWorkFlowService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSWorkFlowEAR/CRRMSWorkFlowFacade/CaseWorkFlowEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSWorkFlowEAR/CRRMSWorkFlowFacade/CaseWorkFlowEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBRemote</sl:RemoteName>
+				</sl:EJBService>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.workflow.service.WorkFlowCaseDocumentService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSWorkFlowEAR/CRRMSWorkFlowFacade/CaseWorkFlowEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSWorkFlowEAR/CRRMSWorkFlowFacade/CaseWorkFlowEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBRemote</sl:RemoteName>
+				</sl:EJBService>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.workflow.service.BulkScanProcessService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSWorkFlowEAR/CRRMSWorkFlowFacade/CaseWorkFlowEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSWorkFlowEAR/CRRMSWorkFlowFacade/CaseWorkFlowEJB!com.gcomsoft.crrms.workflow.ejb.CaseWorkFlowEJBRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:Queues>
+				<sl:Queue>
+					<sl:ConnectionFactory>java:/jms/WorkflowResearchDocumentQCF</sl:ConnectionFactory>
+					<sl:Destinations>
+						<sl:Destination>
+							<sl:AliasName>WorkflowResearchDocumentQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/WorkflowResearchDocumentQ</sl:DestinationName>
+						</sl:Destination>
+					</sl:Destinations>
+				</sl:Queue>
+				<sl:Queue>
+					<sl:ConnectionFactory>java:/jms/UploadWorkflowResearchDocumentQCF</sl:ConnectionFactory>
+					<sl:Destinations>
+						<sl:Destination>
+							<sl:AliasName>UploadWorkflowResearchDocumentQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/UploadWorkflowResearchDocumentQ</sl:DestinationName>
+						</sl:Destination>
+					</sl:Destinations>
+				</sl:Queue>
+				<sl:Queue>
+					<sl:ConnectionFactory>java:/jms/NonUploadedResearchDocumentQCF</sl:ConnectionFactory>
+					<sl:Destinations>
+						<sl:Destination>
+							<sl:AliasName>NonUploadedResearchDocumentQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/NonUploadedResearchDocumentQ</sl:DestinationName>
+						</sl:Destination>
+					</sl:Destinations>
+				</sl:Queue>
+				<sl:Queue>
+					<sl:ConnectionFactory>java:/jms/PasswordExpiryQCF</sl:ConnectionFactory>
+					<sl:Destinations>
+						<sl:Destination>
+							<sl:AliasName>PasswordExpiryQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/PasswordExpiryQ</sl:DestinationName>
+						</sl:Destination>
+					</sl:Destinations>
+				</sl:Queue>
+			</sl:Queues>
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>CCHPOCDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/CCHPOCDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+		<sl:AppRegistry AppName="CRRMS_LETTER_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.letter.services.LetterMaintenanceService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSLetterMaintenanceEAR/CRRMSLetterMaintenanceFacade/LetterMaintenanceEJB!com.gcomsoft.crrms.letter.ejb.LetterMaintenanceLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSLetterMaintenanceEAR/CRRMSLetterMaintenanceFacade/LetterMaintenanceEJB!com.gcomsoft.crrms.letter.ejb.LetterMaintenanceRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>CCHPOCDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/CCHPOCDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+
+		<sl:AppRegistry AppName="CRRMS_MESSAGE_LOG_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcom.crrms.messagelog.service.CRRMSMessageLogService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSMessageLogEAR/CRRMSMessageLogFacade/CRRMSMessageLogEJB!com.gcom.crrms.messagelog.service.CRRMSMessageLogServiceLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSMessageLogEAR/CRRMSMessageLogFacade/CRRMSMessageLogEJB!com.gcom.crrms.messagelog.service.CRRMSMessageLogServiceRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>MessageLogDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/MessageLogDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+		
+		<sl:AppRegistry AppName="OSMS_MESSAGE_LOG_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcom.crrms.messagelog.service.OSMSMessageLogService</sl:AliasName>
+					<sl:LocalName>java:global/OSMSMessageLogEAR/OSMSMessageLogFacade/OSMSMessageLogEJB!com.gcom.osms.messagelog.service.OSMSMessageLogServiceLocal</sl:LocalName>
+					<sl:RemoteName>java:jboss/exported/OSMSMessageLogEAR/OSMSMessageLogFacade/OSMSMessageLogEJB!com.gcom.osms.messagelog.service.OSMSMessageLogServiceRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>MessageLogDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/MessageLogDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+
+		<sl:AppRegistry AppName="GCOM_JBPM_ADAPTER">
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>CCHJBPMDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/CCHJBPMDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+
+		<!-- Statute Start -->
+		<sl:AppRegistry AppName="CRRMS_STATUTE">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.statute.service.StatuteService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSStatuteEAR/CRRMSStatuteFacade/StatuteServiceEJB!com.gcomsoft.crrms.statute.service.StatuteServiceLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSStatuteEAR/CRRMSStatuteFacade/StatuteServiceEJB!com.gcomsoft.crrms.statute.service.StatuteServiceRemote</sl:RemoteName>
+				</sl:EJBService>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.statute.service.AonService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSStatuteEAR/CRRMSStatuteFacade/StatuteServiceEJB!com.gcomsoft.crrms.statute.service.StatuteServiceLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSStatuteEAR/CRRMSStatuteFacade/StatuteServiceEJB!com.gcomsoft.crrms.statute.service.StatuteServiceRemote</sl:RemoteName>
+				</sl:EJBService>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.statute.service.ReclassifierService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSStatuteEAR/CRRMSStatuteFacade/StatuteServiceEJB!com.gcomsoft.crrms.statute.service.StatuteServiceLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSStatuteEAR/CRRMSStatuteFacade/StatuteServiceEJB!com.gcomsoft.crrms.statute.service.StatuteServiceRemote</sl:RemoteName>
+				</sl:EJBService>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.statute.service.StatuteLookupService</sl:AliasName>
+					<sl:LocalName>java:global/CRRMSStatuteEAR/CRRMSStatuteFacade/StatuteServiceEJB!com.gcomsoft.crrms.statute.service.StatuteServiceLocal</sl:LocalName>
+					<sl:RemoteName>ejb:CRRMSStatuteEAR/CRRMSStatuteFacade/StatuteServiceEJB!com.gcomsoft.crrms.statute.service.StatuteServiceRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>CCHDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/CCHDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+
+		<!--  Batch Services -->
+		<sl:AppRegistry AppName="CRRMS_BATCH">
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>BATCHDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/BATCHDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+
+		<sl:AppRegistry AppName="CORRECTION_BATCH">
+			<sl:Queues>
+				<sl:Queue>
+					<sl:ConnectionFactory>java:/jms/DocsQCF</sl:ConnectionFactory>
+					<sl:Destinations>
+						<sl:Destination>
+							<sl:AliasName>DocsOutQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/DocsOutQ</sl:DestinationName>
+						</sl:Destination>
+					</sl:Destinations>
+				</sl:Queue>
+			</sl:Queues>
+		</sl:AppRegistry>
+		<!--  Batch Services -->
+
+		<sl:AppRegistry AppName="CRRMS_CODED_VALUES">
+			<sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>CODEDDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/CODEDDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+		</sl:AppRegistry>
+
+		<sl:AppRegistry AppName="III_SERVICES">
+			<sl:Queues>
+				<sl:Queue>
+					<sl:ConnectionFactory>java:/jms/III_QCF</sl:ConnectionFactory>
+					<sl:Destinations>
+						<sl:Destination>
+							<sl:AliasName>IIIReceiverQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/IIIReceiverQ</sl:DestinationName>
+						</sl:Destination>
+					</sl:Destinations>
+				</sl:Queue>
+			</sl:Queues>
+		</sl:AppRegistry>
+
+		<sl:AppRegistry AppName="STATE_SERVICES">
+			<sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.stateservice.service.StateService</sl:AliasName>
+					<sl:LocalName>java:global/StateServiceEAR/StateServiceFacade/StateServiceFacade!com.gcomsoft.crrms.stateservice.ejb.StateServiceFacadeLocal</sl:LocalName>
+					<sl:RemoteName>ejb:StateServiceEAR/StateServiceFacade/StateServiceFacade!com.gcomsoft.crrms.stateservice.ejb.StateServiceFacadeRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:Queues>
+				<sl:Queue>
+					<sl:ConnectionFactory>java:/jms/StateServiceQCF</sl:ConnectionFactory>
+					<sl:Destinations>
+						<sl:Destination>
+							<sl:AliasName>StateServiceRecQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/StateServiceRecQ</sl:DestinationName>
+						</sl:Destination>
+					</sl:Destinations>
+				</sl:Queue>
+			</sl:Queues>
+		</sl:AppRegistry>
+		
+		
+		<sl:AppRegistry AppName="NCIS_DATAMART">
+		    <sl:EJBServices>
+				<sl:EJBService PreferLocal="false">
+					<sl:AliasName>com.gcomsoft.crrms.nics.service.NICSDatamart</sl:AliasName>
+					<sl:LocalName>java:global/NICSDatamartEAR/NICSDatamartFacade/NICSDatamartFacade!com.gcomsoft.crrms.nics.ejb.NICSDatamartFacadeLocal</sl:LocalName>
+					<sl:RemoteName>ejb:NICSDatamartEAR/NICSDatamartFacade/NICSDatamartFacade!com.gcomsoft.crrms.nics.ejb.NICSDatamartFacadeRemote</sl:RemoteName>
+				</sl:EJBService>
+			</sl:EJBServices>
+			<sl:Queues>
+				<sl:Queue>
+					<sl:ConnectionFactory>java:/jms/NICSReceiverQCF</sl:ConnectionFactory>
+					<sl:Destinations>
+						<sl:Destination>
+							<sl:AliasName>NICSReceiverQ</sl:AliasName>
+							<sl:DestinationName>java:/jms/NICSReceiverQ</sl:DestinationName>
+						</sl:Destination>					
+					</sl:Destinations>
+				</sl:Queue>				
+			</sl:Queues>
+		</sl:AppRegistry>
+		<sl:AppRegistry AppName="REFTABLE_MAINTENANCE">
+            <sl:EJBServices>
+                <sl:EJBService PreferLocal="false">
+                     <sl:AliasName>com.gcomsoft.fwk.referencetables.maintenanace.service.ReferenceTableMaintenanceService</sl:AliasName>
+                     <sl:LocalName>java:global/RefTableMaintenanceEAR/RefTableMaintenanceFacade/ReferenceTableMaintenanceEJB!com.gcomsoft.fwk.referencetables.maintenanace.ejb.ReferenceTableMaintenanceEJBLocal</sl:LocalName>
+                     <sl:RemoteName>ejb:RefTableMaintenanceEAR/RefTableMaintenanceFacade/ReferenceTableMaintenanceEJB!com.gcomsoft.fwk.referencetables.maintenanace.ejb.ReferenceTableMaintenanceEJBRemote</sl:RemoteName>
+                </sl:EJBService>
+            </sl:EJBServices>
+           <sl:DataSources>
+				<sl:DataSource>
+					<sl:AliasName>CODEDDS</sl:AliasName>
+					<sl:JNDIName>java:jboss/datasources/CODEDDS</sl:JNDIName>
+				</sl:DataSource>
+			</sl:DataSources>
+        </sl:AppRegistry>	
+
+	</sl:AppRegistries>
+</sl:RegistryConfig>

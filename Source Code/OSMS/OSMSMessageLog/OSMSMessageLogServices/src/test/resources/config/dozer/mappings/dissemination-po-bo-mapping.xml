@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mappings PUBLIC "-//DOZER//DTD MAPPINGS//EN"
+  "http://dozer.sourceforge.net/dtd/dozerbeanmapping.dtd">
+<mappings>
+	<mapping>
+		<class-a>com.gcom.osms.messagelog.bo.model.MessageLog</class-a>
+		<class-b>com.gcom.osms.messagelog.po.model.MessageLogEntity</class-b>
+			
+		<field>
+			<a>messagelogId</a>
+			<b>messagelogId</b>
+		</field>	
+		
+		<field>
+			<a>insertBy</a>
+			<b>insertBy</b>
+		</field>
+		
+		<field>
+			<a>insertDate</a>
+			<b>insertDate</b>
+		</field>
+		
+				
+		<field>
+			<a>messageKey</a>
+			<b>messageKey</b>
+		</field>
+		
+		<field>
+			<a>messageId</a>
+			<b>messageId</b>
+		</field>
+		
+		<field>
+			<a>correlationId</a>
+			<b>correlationId</b>
+		</field>
+		
+		<field>
+			<a>mnemonic</a>
+			<b>mnemonic</b>
+		</field>
+		
+		<field>
+			<a>ori</a>
+			<b>ori</b>
+		</field>
+		
+		<field>
+			<a>requestDate</a>
+			<b>requestDate</b>
+		</field>
+		
+		<field>
+			<a>requestTime</a>
+			<b>requestTime</b>
+		</field>
+						
+		
+		
+		<field>
+			<a>messageLogType</a>
+			<b>messageLogType</b>
+		</field>
+		
+		<field>
+			<a>system</a>
+			<b>systemName</b>
+		</field>
+		
+		<field>
+			<a>fbiNumber</a>
+			<b>fbiNumber</b>
+		</field>
+		
+		<field>
+			<a>stateId</a>
+			<b>sid</b>
+		</field>
+		
+	</mapping>
+</mappings>

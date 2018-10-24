@@ -1,0 +1,182 @@
+package osmsrule
+
+import org.w3c.dom.Document;
+import java.math.BigDecimal;
+import java.lang.*;
+import java.util.*;
+import com.gcom.osms.validator.service.data.parsing.XmlParsing;
+import com.gcom.osms.validator.common.ValidatorRequest;
+import com.gcom.osms.validator.service.util.OSMSValidationUtil;
+import com.gcom.osms.validator.service.util.ReferenceTableUtil;
+import org.apache.commons.lang.StringUtils;
+
+global java.util.Map errorMessages;
+
+dialect "java"
+
+//IQ MessageKeyCodeText element validation
+rule "MessageKeyCodeText Validation"
+   when
+    request : ValidatorRequest(message!=null, contentType=="XML" , mke == "IQ");
+   then   	
+     System.out.println("msgKeyCodeTxt::"+XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSMessageHeader/MessageKeyCodeText/text()"));
+     String msgKeyCodeTxt = XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSMessageHeader/MessageKeyCodeText/text()");
+     validateMandatoryFields(msgKeyCodeTxt,"ERROR_CODE_001",new Object[]{"MessageKeyCodeText",request.getMke()},errorMessages);
+end
+
+
+//IQ OriginatingORIID element validation
+rule "OriginatingORIID Validation"
+   when
+    request : ValidatorRequest(message!=null, contentType=="XML" , mke == "IQ");
+   then   	
+     System.out.println("originatingORIID::"+XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSMessageHeader/OriginatingORIID/text()"));
+     String originatingORIID = XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSMessageHeader/OriginatingORIID/text()");
+     validateMandatoryFields(originatingORIID,"ERROR_CODE_001",new Object[]{"OriginatingORIID",request.getMke()},errorMessages);
+end
+
+//IQ DestinationORIID element validation
+rule "DestinationORIID Validation"
+   when
+    request : ValidatorRequest(message!=null, contentType=="XML" , mke == "IQ");
+   then   	
+     System.out.println("destinationORIID::"+XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSMessageHeader/DestinationORIID/text()"));
+     String destinationORIID = XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSMessageHeader/DestinationORIID/text()");
+     validateMandatoryFields(destinationORIID,"ERROR_CODE_001",new Object[]{"DestinationORIID",request.getMke()},errorMessages);
+end
+
+//IQ PurposeCode element validation
+rule "PurposeCode Validation"
+   when
+    request : ValidatorRequest(message!=null, contentType=="XML" , mke == "IQ");
+   then   	
+     System.out.println("purposeCode::"+XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSInquiryData/PurposeCode/text()"));
+     String purposeCode = XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSInquiryData/PurposeCode/text()");
+     validateMandatoryFields(purposeCode,"ERROR_CODE_001",new Object[]{"PurposeCode",request.getMke()},errorMessages);
+end
+
+//IQ PersonFullName element validation
+rule "PersonFullName Validation"
+   when
+    request : ValidatorRequest(message!=null, contentType=="XML" , mke == "IQ");
+   then   	
+     System.out.println("personFullName::"+XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSInquiryData/Person/PersonName/PersonFullName/text()"));
+     String personFullName = XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSInquiryData/Person/PersonName/PersonFullName/text()");
+     validateMandatoryFields(personFullName,"ERROR_CODE_001",new Object[]{"PersonFullName",request.getMke()},errorMessages);
+     validateNameField(personFullName,"ERROR_CODE_003",new Object[]{"PersonFullName"},errorMessages);
+end
+
+//IQ PersonBirthDate element validation
+rule "PersonBirthDate Validation"
+   when
+    request : ValidatorRequest(message!=null, contentType=="XML" , mke == "IQ");
+   then   	
+     System.out.println("personBirthDate::"+XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSInquiryData/Person/PersonBirthDate/Date/text()"));
+     String personBirthDate = XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSInquiryData/Person/PersonBirthDate/Date/text()");
+     validateMandatoryFields(personBirthDate,"ERROR_CODE_001",new Object[]{"PersonBirthDate",request.getMke()},errorMessages);
+     validateDateField(personBirthDate,"ERROR_CODE_002",new Object[]{"PersonBirthDate"},errorMessages);
+end
+
+//IQ PersonSexCode element validation
+rule "PersonSexCode Validation"
+   when
+    request : ValidatorRequest(message!=null, contentType=="XML" , mke == "IQ");
+   then   	
+     System.out.println("personSexCode::"+XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSInquiryData/Person/PersonSexCode/text()"));
+     String personSexCode = XmlParsing.getXPathVal(request.getMessage(),"NLETS/NLETSInquiryData/Person/PersonSexCode/text()");
+     validateMandatoryFields(personSexCode,"ERROR_CODE_001",new Object[]{"PersonSexCode",request.getMke()},errorMessages);
+end
+
+
+function Map validateMandatoryFields(Object value, String erroCode, Object[] params, Map errorMessages){
+	if(value==null || (value.getClass().isAssignableFrom(String.class) && value.toString().trim().equals(""))){
+     	errorMessages.put(erroCode,params);
+    }
+    return errorMessages;
+}
+
+function Map validateDateField(Object value, String erroCode, Object[] params, Map errorMessages){
+	if(value!=null){
+		if(!OSMSValidationUtil.isValidDate(value.toString(),"yyyy-MM-dd")){
+			errorMessages.put(erroCode,params);
+		}
+     	
+    }
+    return errorMessages;
+}
+
+function Map validateNameField(Object value, String erroCode, Object[] params, Map errorMessages) {
+
+		if (value != null) {
+			String name = value.toString();
+			String lastName = null;
+			String firstName = null;
+			String middleName = null;
+			String suffix = null;
+			int commanIndex = StringUtils.indexOf(name, ",");
+
+			if (commanIndex == -1) {
+				// only last name present in name
+				lastName = name;
+			} else {
+
+				lastName = StringUtils.substring(name, 0, commanIndex);
+				String firstNameMiddleNameSuffixStr = StringUtils.trim(StringUtils.substring(name, commanIndex + 1));
+
+				// retrieve middle name and suffix
+
+				if (StringUtils.isNotBlank(firstNameMiddleNameSuffixStr)) {
+
+					// check suffix in trimmedMiddleNameSuffixStr
+
+					String trimmedFirstMiddleNameSuffixArray[] = StringUtils.split(firstNameMiddleNameSuffixStr, " ");
+					firstName = trimmedFirstMiddleNameSuffixArray[0];
+					if (trimmedFirstMiddleNameSuffixArray.length > 1) {
+						List<String> middleNameArray = new ArrayList<String>();
+						boolean isSuffixPresent = false;
+						for (int i = trimmedFirstMiddleNameSuffixArray.length - 1; i > 0; i--) {
+							String currentMiddleNameSuffix = trimmedFirstMiddleNameSuffixArray[i];
+							String middleNamePiece = null;
+
+							if (!isSuffixPresent) {
+								isSuffixPresent = ReferenceTableUtil.isSuffixPresent(currentMiddleNameSuffix);
+								if (isSuffixPresent) {
+									suffix = currentMiddleNameSuffix;
+								} else {
+									middleNamePiece = currentMiddleNameSuffix;
+								}
+							} else {
+								middleNamePiece = currentMiddleNameSuffix;
+							}
+
+							if (middleNamePiece!=null && !middleNamePiece.equals("")) {
+								// part of middle name
+								middleNameArray.add(middleNamePiece);
+							}
+						}
+						if (middleNameArray.size()>0) {
+							StringBuilder sb = new StringBuilder();
+							for (int i = middleNameArray.size() - 1; i >= 0; i--) {
+								if (sb.length() > 0) {
+									sb.append(" ");
+								}
+								sb.append(middleNameArray.get(i));
+							}
+							middleName = sb.toString();
+						}
+					}
+				}
+
+				
+			}
+			System.out.println("lastName>>>>>>"+lastName);
+			System.out.println("firstName>>>>>>"+firstName);
+			System.out.println("middleName>>>>>>"+middleName);
+			System.out.println("suffix>>>>>>"+suffix);
+			if (lastName == null || lastName.equals("")) {
+				errorMessages.put(erroCode, params);
+			}
+			
+		}
+		return errorMessages;
+	}
